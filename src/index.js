@@ -8,6 +8,7 @@ const app = express();
 
 const boardsRouter = require("./controllers/boards");
 const usersRouter = require("./controllers/users");
+const loginRouter = require("./controllers/login");
 
 //Constants
 const PORT = process.env.PORT || 3001;
@@ -43,6 +44,7 @@ if (!process.env.SECRET) {
 // Routes
 app.use("/boards", boardsRouter);
 app.use("/users", usersRouter);
+app.use("/login", loginRouter);
 
 // Export / Launch
 if (process.env.NODE_ENV === "production") {

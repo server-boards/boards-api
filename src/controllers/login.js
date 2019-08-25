@@ -29,4 +29,4 @@ router.post("/", async (req, res) => {
   res.status(200).send({ token, username: user.username, email: user.email });
 });
 
-module.exports = loginRouter;
+module.exports = router;
