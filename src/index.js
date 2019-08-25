@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const app = express();
 
 const boardsRouter = require("./controllers/boards");
+const usersRouter = require("./controllers/users");
 
 //Constants
 const PORT = process.env.PORT || 3001;
@@ -35,6 +36,7 @@ mongoose
 
 // Routes
 app.use("/boards", boardsRouter);
+app.use("/users", usersRouter);
 
 // Export / Launch
 if (process.env.NODE_ENV === "production") {
