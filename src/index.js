@@ -1,3 +1,4 @@
+require("dotenv").config();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const express = require("express");
@@ -6,7 +7,7 @@ const app = express();
 const boardsRouter = require("./controllers/boards");
 
 //Constants
-const PORT = process.env.API_PORT || 3001;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
