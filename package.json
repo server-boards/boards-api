@@ -1,0 +1,13 @@
+{
+  "name": "boards-api",
+  "version": "0.1.0",
+  "description": "API for \"boards\" group management app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Add some tests!\"",
+    "start": "node index.js"
+  },
+  "author": "Anthony Powell <adpowell@mtu.edu>",
+  "license": "UNLICENSED",
+  "private": true
+}
