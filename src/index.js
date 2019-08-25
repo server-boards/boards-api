@@ -10,12 +10,13 @@ const boardsRouter = require("./controllers/boards");
 const usersRouter = require("./controllers/users");
 const loginRouter = require("./controllers/login");
 const unknownEndpoint = require("./utils/middleware/unknown-endpoint");
+const errorHandler = require("./utils/middleware/error-handler");
 const { info, error } = require("./utils/logger");
 
 //Constants
 const PORT = process.env.PORT || 3001;
 
-// Middleware
+// Beginning Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -46,7 +47,9 @@ app.use("/api/boards", boardsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
 
+// Final Middleware
 app.use(unknownEndpoint);
+app.use(errorHandler);
 
 // Export / Launch
 if (process.env.NODE_ENV === "production") {

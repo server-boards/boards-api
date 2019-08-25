@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
  *
  * Requires authentication for board membership
  */
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const user = await getUser(req);
 
@@ -39,11 +39,10 @@ router.get("/:id", async (req, res) => {
     if (hasAccess) {
       res.json(board.toJSON());
     } else {
-      res.status(404).end();
+      res.status(404).json({ error: "User does not have access to board" });
     }
   } catch (e) {
-    res.status(500).end();
-    error("Could not get board.", e);
+    next(e);
   }
 });
 
@@ -52,7 +51,7 @@ router.get("/:id", async (req, res) => {
  *
  * Requires authentication for ownership
  */
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const user = await getUser(req);
 
@@ -76,8 +75,7 @@ router.post("/", async (req, res) => {
 
     res.json(saved.toJSON());
   } catch (e) {
-    res.status(500).end();
-    error("Could not create board", e);
+    next(e);
   }
 });
 

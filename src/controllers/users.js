@@ -16,7 +16,7 @@ const { error } = require("../utils/logger");
  *
  * TODO: Password requirements, email verification
  */
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const body = req.body;
 
@@ -33,8 +33,7 @@ router.post("/", async (req, res) => {
 
     res.json(savedUser);
   } catch (e) {
-    error(e);
-    res.status(500).end();
+    next(e);
   }
 });
 
