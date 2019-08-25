@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Add some tests!\"",
-    "watch": "NODE_ENV=development nodemon node index.js",
-    "start": "node index.js"
+    "watch": "cross-env NODE_ENV=development nodemon node index.js",
+    "start": "cross-env node index.js"
   },
   "author": "Anthony Powell <adpowell@mtu.edu>",
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1"
   },
   "devDependencies": {
