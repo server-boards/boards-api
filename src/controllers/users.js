@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const router = require("express").Router();
 
 const User = require("../models/user");
+const { error } = require("./utils/logger");
 
 /**
  * Create a new user
@@ -32,7 +33,7 @@ router.post("/", async (req, res) => {
 
     res.json(savedUser);
   } catch (e) {
-    console.error(e);
+    error(e);
     res.status(500).end();
   }
 });

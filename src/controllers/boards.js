@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 const Board = require("../models/board");
 const getUser = require("../utils/data/get-user");
+const { error } = require("./utils/logger");
 
 /**
  * List the names of all boards in the database
@@ -42,7 +43,7 @@ router.get("/:id", async (req, res) => {
     }
   } catch (e) {
     res.status(500).end();
-    console.error("Could not get board.", e);
+    error("Could not get board.", e);
   }
 });
 
@@ -76,7 +77,7 @@ router.post("/", async (req, res) => {
     res.json(saved.toJSON());
   } catch (e) {
     res.status(500).end();
-    console.error("Could not create board", e);
+    error("Could not create board", e);
   }
 });
 

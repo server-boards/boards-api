@@ -9,6 +9,7 @@ const app = express();
 const boardsRouter = require("./controllers/boards");
 const usersRouter = require("./controllers/users");
 const loginRouter = require("./controllers/login");
+const { info, error } = require("./utils/logger");
 
 //Constants
 const PORT = process.env.PORT || 3001;
@@ -19,25 +20,23 @@ app.use(bodyParser.json());
 
 // Connect to mongo
 if (!process.env.MONGODB_URI) {
-  console.error(
-    "Mongodb connection string required in .env: 'MONGODB_URI'. Exiting."
-  );
+  error("Mongodb connection string required in .env: 'MONGODB_URI'. Exiting.");
   process.exit(-1);
 }
 
 mongoose
   .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
   .then(() => {
-    console.log("Successfully connected to mongodb.");
+    info("Successfully connected to mongodb.");
   })
   .catch(e => {
-    console.error("Could not connect to mongodb. Exiting.", e);
+    error("Could not connect to mongodb. Exiting.", e);
     process.exit(-1);
   });
 
 // Check for SECRET
 if (!process.env.SECRET) {
-  console.error("SECRET required in .env: 'SECRET' to sign tokens. Exiting.");
+  error("SECRET required in .env: 'SECRET' to sign tokens. Exiting.");
   process.exit(-1);
 }
 
@@ -52,7 +51,7 @@ if (process.env.NODE_ENV === "production") {
 } else {
   const run = () => {
     app.listen(PORT);
-    console.log("Boards api is listening on port", PORT);
+    info("Boards api is listening on port", PORT);
   };
 
   module.exports = { run };
