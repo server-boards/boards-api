@@ -8,7 +8,7 @@ API application for managing boards
   `/.env`
 
 ```
-MONGODB_URI= // URI to mongo environment to use for development
+MONGODB_URI= // URI to mongo environment to use for development, get from cloud.mongodb.com
 PORT= // Port number for the server to use
 ```
 

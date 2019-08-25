@@ -2,6 +2,8 @@ require("dotenv").config();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const express = require("express");
+const mongoose = require("mongoose");
+
 const app = express();
 
 const boardsRouter = require("./controllers/boards");
@@ -12,6 +14,24 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+
+// Connect to mongo
+if (!process.env.MONGODB_URI) {
+  console.error(
+    "Mongodb connection string required in .env: 'MONGODB_URI'. Exiting."
+  );
+  process.exit(-1);
+}
+
+mongoose
+  .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+  .then(() => {
+    console.log("Successfully connected to mongodb.");
+  })
+  .catch(e => {
+    console.error("Could not connect to mongodb. Exiting.", e);
+    process.exit(-1);
+  });
 
 // Routes
 app.use("/boards", boardsRouter);
