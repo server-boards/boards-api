@@ -42,9 +42,9 @@ if (!process.env.SECRET) {
 }
 
 // Routes
-app.use("/boards", boardsRouter);
-app.use("/users", usersRouter);
-app.use("/login", loginRouter);
+app.use("/api/boards", boardsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
 
 // Export / Launch
 if (process.env.NODE_ENV === "production") {
