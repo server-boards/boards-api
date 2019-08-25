@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Add some tests!\"",
     "watch": "cross-env NODE_ENV=development nodemon node index.js",
-    "start": "cross-env node index.js"
+    "start": "cross-env node index.js",
+    "dev": "npm run watch"
   },
   "author": "Anthony Powell <adpowell@mtu.edu>",
   "license": "UNLICENSED",
