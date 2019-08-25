@@ -3,12 +3,22 @@ const router = require("express").Router();
 const Board = require("../models/board");
 const getUser = require("../utils/data/get-user");
 
+/**
+ * List the names of all boards in the database
+ *
+ * TODO: restrict this based on user auth maybe?
+ */
 router.get("/", async (req, res) => {
   const boards = await Board.find({});
 
   res.json(boards.map(board => ({ name: board.toJSON().name })));
 });
 
+/**
+ * List information of a particular board based on its id
+ *
+ * Requires authentication for board membership
+ */
 router.get("/:id", async (req, res) => {
   try {
     const user = await getUser(req);
@@ -20,6 +30,7 @@ router.get("/:id", async (req, res) => {
     const userId = user.toJSON().id;
     const board = await Board.findById(req.params.id);
 
+    // Only display information about the board if the user is a member
     const hasAccess =
       board &&
       board.toJSON().users.find(id => id.toString() === userId.toString());
@@ -35,6 +46,11 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+/**
+ * Create a new board
+ *
+ * Requires authentication for ownership
+ */
 router.post("/", async (req, res) => {
   try {
     const user = await getUser(req);

@@ -3,6 +3,18 @@ const router = require("express").Router();
 
 const User = require("../models/user");
 
+/**
+ * Create a new user
+ *
+ * Request body:
+ * {
+ *  username: {String},
+ *  email: {String},
+ *  password: {String}
+ * }
+ *
+ * TODO: Password requirements, email verification
+ */
 router.post("/", async (req, res) => {
   try {
     const body = req.body;

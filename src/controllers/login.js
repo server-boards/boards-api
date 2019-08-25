@@ -4,6 +4,15 @@ const router = require("express").Router();
 
 const User = require("../models/user");
 
+/**
+ * Login and receive an authorization token
+ *
+ * Request body:
+ * {
+ *  username: {String},
+ *  password: {String}
+ * }
+ */
 router.post("/", async (req, res) => {
   const body = req.body;
 
