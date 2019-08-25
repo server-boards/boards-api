@@ -1,29 +1,46 @@
 const router = require("express").Router();
 
-// REPLACE WITH MONGO
-const boards = []; // STUB data
-const getNewId = () => {
-  let max = 0;
+const Board = require("../models/board");
 
-  boards.forEach(board => (board.id > max ? (max = board.id) : null));
+router.get("/", async (req, res) => {
+  const boards = await Board.find({});
 
-  return max + 1;
-};
-// END
-
-router.get("/", (req, res) => {
-  res.json(boards);
+  res.json(boards.map(board => board.toJSON()));
 });
 
-router.post("/", (req, res) => {
-  const body = req.body;
+router.get("/:id", async (req, res) => {
+  try {
+    const board = await Board.findById(req.params.id);
 
-  if (body) {
-    const id = getNewId(); // REPLACE WITH MONGO
-    const newBoard = { id, ...body };
+    if (board) {
+      res.json(board.toJSON());
+    } else {
+      res.status(404).end();
+    }
+  } catch (e) {
+    res.status(500).end();
+    console.error("Could not get board.", e);
+  }
+});
 
-    boards.push(newBoard);
-    return res.json(newBoard);
+router.post("/", async (req, res) => {
+  try {
+    // TODO: Verify user via token in request
+
+    const body = req.body;
+    const board = new Board({
+      name: body.name,
+      owner: body.owner
+    });
+
+    const saved = await board.save();
+
+    // TODO: Modify user object, add saved board to user
+
+    res.json(saved.toJSON());
+  } catch (e) {
+    res.status(500).end();
+    console.error("Could not create board", e);
   }
 });
 
