@@ -11,6 +11,8 @@ const errorHandler = (e, req, res, next) => {
     return res.status(401).json({
       error: "invalid authentication token"
     });
+  } else if (e.name === "TokenExpiredError") {
+    return res.status(401).json({ error: e.message, reAuth: true });
   }
 
   next(e);
