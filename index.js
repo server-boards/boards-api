@@ -1,1 +1,3 @@
-console.log("Boards API");
+const server = require("./src/index");
+
+server.run();

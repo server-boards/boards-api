@@ -9,5 +9,8 @@
   },
   "author": "Anthony Powell <adpowell@mtu.edu>",
   "license": "UNLICENSED",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
