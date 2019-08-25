@@ -34,6 +34,12 @@ mongoose
     process.exit(-1);
   });
 
+// Check for SECRET
+if (!process.env.SECRET) {
+  console.error("SECRET required in .env: 'SECRET' to sign tokens. Exiting.");
+  process.exit(-1);
+}
+
 // Routes
 app.use("/boards", boardsRouter);
 app.use("/users", usersRouter);
