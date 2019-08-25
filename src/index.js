@@ -9,6 +9,7 @@ const app = express();
 const boardsRouter = require("./controllers/boards");
 const usersRouter = require("./controllers/users");
 const loginRouter = require("./controllers/login");
+const unknownEndpoint = require("./utils/middleware/unknown-endpoint");
 const { info, error } = require("./utils/logger");
 
 //Constants
@@ -44,6 +45,8 @@ if (!process.env.SECRET) {
 app.use("/api/boards", boardsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
+
+app.use(unknownEndpoint);
 
 // Export / Launch
 if (process.env.NODE_ENV === "production") {
