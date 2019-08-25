@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const boardSchema = new mongoose.Schema({
   // Users allowed access to this board
@@ -21,7 +22,7 @@ const boardSchema = new mongoose.Schema({
     }
   ],
   // Board name
-  name: String
+  name: { type: String, unique: true }
 
   // Events collection
   // Posts collection
@@ -36,6 +37,8 @@ boardSchema.set("toJSON", {
     delete item.__v;
   }
 });
+
+boardSchema.plugin(uniqueValidator);
 
 const Board = mongoose.model("Board", boardSchema);
 
