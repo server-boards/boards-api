@@ -2,7 +2,6 @@ const router = require("express").Router();
 
 const Board = require("../models/board");
 const getUser = require("../utils/data/get-user");
-const { error } = require("../utils/logger");
 
 /**
  * List the names of all boards in the database

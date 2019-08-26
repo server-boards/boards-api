@@ -1,11 +1,11 @@
-const verifyAuthentication = require("../verify-authentication");
+const getUserSessionID = require("../get-user-session-id");
 const User = require("../../models/user");
 
 const getUser = async request => {
-  const authenticated = verifyAuthentication(request);
+  const authenticatedID = getUserSessionID(request);
 
-  if (authenticated) {
-    const user = await User.findById(authenticated);
+  if (authenticatedID) {
+    const user = await User.findById(authenticatedID);
 
     return user;
   }

@@ -3,22 +3,21 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const express = require("express");
 const mongoose = require("mongoose");
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 
 const app = express();
 
 const boardsRouter = require("./controllers/boards");
 const usersRouter = require("./controllers/users");
-const loginRouter = require("./controllers/login");
+const authRouter = require("./controllers/auth");
 const unknownEndpoint = require("./utils/middleware/unknown-endpoint");
 const errorHandler = require("./utils/middleware/error-handler");
 const { info, error } = require("./utils/logger");
 
 //Constants
 const PORT = process.env.PORT || 3001;
-
-// Beginning Middleware
-app.use(cors());
-app.use(bodyParser.json());
+const RS_SECRET = process.env.RS_SECRET || "DEBUG";
 
 // Connect to mongo
 if (!process.env.MONGODB_URI) {
@@ -36,6 +35,18 @@ mongoose
     process.exit(-1);
   });
 
+// Beginning Middleware
+app.use(
+  session({
+    secret: RS_SECRET,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    resave: false,
+    saveUninitialized: false
+  })
+);
+app.use(cors());
+app.use(bodyParser.json());
+
 // Check for SECRET
 if (!process.env.SECRET) {
   error("SECRET required in .env: 'SECRET' to sign tokens. Exiting.");
@@ -45,7 +56,7 @@ if (!process.env.SECRET) {
 // Routes
 app.use("/api/boards", boardsRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/login", loginRouter);
+app.use("/api/auth", authRouter);
 
 // Final Middleware
 app.use(unknownEndpoint);

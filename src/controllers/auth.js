@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+
 const router = require("express").Router();
 
 const User = require("../models/user");
+const { info } = require("../utils/logger");
 
 /**
  * Login and receive an authorization token
@@ -13,7 +14,7 @@ const User = require("../models/user");
  *  password: {String}
  * }
  */
-router.post("/", async (req, res) => {
+router.post("/login", async (req, res) => {
   const body = req.body;
 
   const user = await User.findOne({ username: body.username });
@@ -28,14 +29,16 @@ router.post("/", async (req, res) => {
     });
   }
 
-  const userForToken = {
-    username: user.username,
-    id: user._id
-  };
+  const userJson = user.toJSON();
+  req.session[req.sessionID] = { userID: userJson.id };
+  res.json({ user: userJson });
+});
 
-  const token = jwt.sign(userForToken, process.env.SECRET);
-
-  res.status(200).send({ token, username: user.username, email: user.email });
+router.get("/logout", async (req, res) => {
+  req.session.destroy(() => {
+    info("Session destroyed");
+    res.status(200).end();
+  });
 });
 
 module.exports = router;
